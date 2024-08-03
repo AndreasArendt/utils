@@ -52,6 +52,11 @@ classdef Transformation
             U = ENU(:,3);
         end
 
+        function [N, E, D] = ecef2ned(lat__rad, lon__rad, x__m, y__m, z__m)
+            [E,N,U] = Transformation.ecef2enu(lat__rad, lon__rad, x__m, y__m, z__m);
+            D = -U;
+        end
+
         function [lat__rad, lon__rad, alt__m] = ecef2wgs84(x__m, y__m, z__m) 
         %input in m, output in rad and meters
         
