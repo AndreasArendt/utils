@@ -3,11 +3,11 @@ classdef Vector < handle
     %   Detailed explanation goes here
         
     methods (Static = true)
-        function dist = EuclidianDistance_3D(x1, y1, z1, x2, y2, z2)
+        function d12 = EuclidianDistance_3D(x1, y1, z1, x2, y2, z2)
             dx = (x1 - x2);
             dy = (y1 - y2);
             dz = (z1 - z2);
-            dist = sqrt( dx.^2 + dy.^2 + dz.^2);            
+            d12 = sqrt( dx.^2 + dy.^2 + dz.^2);            
         end
 
         function d12 = DistanceVector_3D(x1, y1, z1, x2, y2, z2)
