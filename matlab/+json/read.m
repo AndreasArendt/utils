@@ -1,4 +1,4 @@
-function jstring = read(jpath)
+function jdata = read(jpath)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
             
@@ -7,5 +7,5 @@ function jstring = read(jpath)
     c = onCleanup(@()fclose(fid));
 
     jfile = fscanf(fid, '%s');    
-    jstring = jsondecode(jfile);
+    jdata = jsondecode(jfile);
 end
