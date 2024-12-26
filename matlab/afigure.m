@@ -19,6 +19,12 @@ classdef afigure < handle
         function linkaxes(obj, axes)
             linkaxes(obj.handle.Children, axes);
         end
+
+        function showlegend(obj)
+            for ax = obj.handle.Children.'
+                legend(ax, 'show');
+            end
+        end
     end
 
     methods (Access = protected)
