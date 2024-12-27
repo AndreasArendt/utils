@@ -1,4 +1,7 @@
 function p = lagrange_interp(x, y, x_eval)
+% Lagrange Interpolation
+% Note: This version is faster than with vectorization!
+
     assert(numel(x) == numel(y), 'x and y must have the same length');
     
     p = 0;
