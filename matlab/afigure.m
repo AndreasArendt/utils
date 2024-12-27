@@ -22,7 +22,9 @@ classdef afigure < handle
 
         function showlegend(obj)
             for ax = obj.handle.Children.'
-                legend(ax, 'show');
+                if isa(ax, 'matlab.graphics.axis.Axes')
+                    legend(ax, 'show');
+                end
             end
         end
     end
