@@ -44,11 +44,11 @@ classdef afigure < handle
                 end
             else
                 % plot line
-                for c = hObject.Children.'
+                idx = arrayfun(@(h) isa(h, 'matlab.graphics.axis.Axes'), obj.handle.Children);
+                for c = hObject.Children(idx).'
                     obj.vBar(end+1) = xline(c, eventdata.Source.CurrentAxes.CurrentPoint(1), 'Color', Color.RED);
                 end  
             end
         end
     end
 end
-
