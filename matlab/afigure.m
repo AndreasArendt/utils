@@ -17,9 +17,10 @@ classdef afigure < handle
         end                
 
         function linkaxes(obj, axes)
-            linkaxes(obj.handle.Children, axes);
+            idx = arrayfun(@(h) isa(h, 'matlab.graphics.axis.Axes'), obj.handle.Children);
+            linkaxes(obj.handle.Children(idx), axes);
         end
-
+      
         function showlegend(obj)
             for ax = obj.handle.Children.'
                 if isa(ax, 'matlab.graphics.axis.Axes')
