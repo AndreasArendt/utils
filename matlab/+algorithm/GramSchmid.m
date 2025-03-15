@@ -8,7 +8,7 @@ function [u, e] = GramSchmid(v)
     % column vectors
     N = numel(v(1,:));
 
-    proj = @(u,v)(u * (dot(v, u) / dot(u,u)));
+    proj = @(u,v)(u .* (dot(v, u) ./ dot(u,u)));
     
     % iterate over each column vector
     for kk = 1:N
