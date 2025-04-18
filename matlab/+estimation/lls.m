@@ -1,4 +1,4 @@
-function [x, P] = lls(A, y, options)
+function [x, P, res] = lls(A, y, options)
 
     % Parse input arguments and set default values
     arguments
@@ -18,5 +18,8 @@ function [x, P] = lls(A, y, options)
     x = normal_matrix \ (A' * R_inv * y);     % Solve normal equations with stabilityend
 
     % Compute covariance matrix
-    P = inv(normal_matrix);          % Covariance of the estimated parameters    
+    P = inv(normal_matrix);          % Covariance of the estimated parameters
+
+    % Comput residuals
+    res = A * x - y;
 end
