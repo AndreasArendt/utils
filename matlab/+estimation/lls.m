@@ -18,8 +18,12 @@ function [x, P, res] = lls(A, y, options)
     x = normal_matrix \ (A' * R_inv * y);     % Solve normal equations with stabilityend
 
     % Compute covariance matrix
-    P = inv(normal_matrix);          % Covariance of the estimated parameters
+    if nargout >= 2
+        P = inv(normal_matrix);
+    end
 
     % Comput residuals
-    res = A * x - y;
+    if nargout >= 3        
+        res = A * x - y;
+    end
 end

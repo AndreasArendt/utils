@@ -35,11 +35,11 @@ classdef factorgraph < handle
                 options.z
                 options.R (1,:)
             end
-
-            obj.y_prior = X0;
+            
             obj.nStates = numel(X0);
-            obj.A_prior = eye(obj.nStates);
-            obj.W_prior = P0;
+            obj.y_prior = sparse(X0);
+            obj.A_prior = sparse(eye(obj.nStates));
+            obj.W_prior = sparse(P0);
 
             if isfield(options, 'H') && isfield(options, 'z') && isfield(options, 'R')
                 obj.addMeasurement(options.H, options.z, options.R)
@@ -73,12 +73,22 @@ classdef factorgraph < handle
             obj.updatePriorDimensions();
         end
 
-        function [x_est, sigma] = solve(obj)
-            [x_hat, sigma_x, residuals] = estimation.lls(obj.A, obj.y, R=obj.W);
-
-            x_est = reshape(full(x_hat), obj.nStates, [])';
-            sigma = reshape(diag(sigma_x), obj.nStates, [])';
-            % res = full(residuals(end-numel(z)+1:end));
+        function [x_est, sigma, res] = solve(obj)
+            % time optimization depending on what outputs are requested
+            switch nargout
+                case {0, 1}
+                    x_hat = estimation.lls(obj.A, obj.y, R=obj.W);
+                    sigma = [];
+                case {2}
+                    [x_hat, sig] = estimation.lls(obj.A, obj.y, R=obj.W);
+                    sigma = reshape(diag(sig), obj.nStates, [])';
+                case {3}
+                    [x_hat, sig, res] = estimation.lls(obj.A, obj.y, R=obj.W);
+                    sigma = reshape(diag(sig), obj.nStates, [])';
+                    res = full(res(end-numel(obj.y_meas)+1:end));
+            end            
+                
+            x_est = reshape(full(x_hat), obj.nStates, [])';                        
         end
     end
 
@@ -87,10 +97,10 @@ classdef factorgraph < handle
             % Update Design Matrix
             [rH, cH] = size(H);
             if isempty(obj.A_meas)
-                obj.A_meas = H;
+                obj.A_meas = sparse(H);
             else
                 [rA, cA] = size(obj.A_meas);
-                obj.A_meas(rA+1:rA+rH,cA+1:cH+cA) = H;
+                obj.A_meas(rA+1:rA+rH,cA+1:cH+cA) = sparse(H);
             end
 
             % Add Measurement
