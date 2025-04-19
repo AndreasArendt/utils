@@ -148,24 +148,9 @@ classdef factorgraph < handle
             value = [obj.y_prior; obj.y_dyn; obj.y_meas];
         end
         function value = get.W(obj)
-            % Initializing
-            sz_w_prior = size(obj.W_prior);
-            sz_w_dyn   = size(obj.W_dyn);
-            sz_w_meas  = size(obj.W_meas);
-
-            value = sparse(zeros(sz_w_prior(1)+sz_w_dyn(1)+sz_w_meas(1)));
-
-            % Prior
-            value(1:sz_w_prior(1),1:sz_w_prior(2)) = obj.W_prior;
-
-            % Dyn
-            value(sz_w_prior(1)+1:sz_w_prior(1)+sz_w_dyn(1), ...
-              sz_w_prior(1)+1:sz_w_prior(1)+sz_w_dyn(2)) = obj.W_dyn;
-
-            % Meas
-            value(sz_w_prior(1)+sz_w_dyn(1)+1:sz_w_prior(1)+sz_w_dyn(1)+sz_w_meas(1), ...
-              sz_w_prior(1)+sz_w_dyn(1)+1:sz_w_prior(1)+sz_w_dyn(2)+sz_w_meas(1)) = obj.W_meas;
-
+            % Initializing            
+            value = blkdiag(obj.W_prior, obj.W_dyn, obj.W_meas);
+            
             % at the moment - only diagonal matrices are working
             value = diag(diag(value));
         end 
