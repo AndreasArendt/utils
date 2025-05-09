@@ -33,16 +33,12 @@ classdef ParticleFilter < handle
             obj.w_t = obj.w_t ./ sum(obj.w_t);
         end
       
-        function Resample(obj)
-            obj.x_t = obj.LowVarianceSampling(obj.x_t, obj.w_t);
-        end
-
         % optimized Roulette Wheel Sampling
-        function x_new = LowVarianceSampling(obj, x_t, w_t)
+        function LowVarianceSampling(obj)        
             x_new = NaN(obj.NumberParticles, obj.NumberStates);
 
             % Normalize weights
-            w = w_t ./ sum(w_t);
+            w = obj.w_t ./ sum(obj.w_t);
 
             % Initialize variables
             r = rand / obj.NumberParticles;
@@ -55,8 +51,10 @@ classdef ParticleFilter < handle
                     ii = ii + 1;
                     c = c + w(ii);
                 end
-                x_new(m, :) = x_t(ii, :);
+                x_new(m, :) = obj.x_t(ii, :);
             end
+
+            obj.x_t = x_new;
         end
     end
 end
