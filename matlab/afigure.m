@@ -50,7 +50,14 @@ classdef afigure < handle
             else
                 % plot line
                 idx = arrayfun(@(h) isa(h, 'matlab.graphics.axis.Axes'), obj.Children);
-                for c = hObject.Children(idx).'
+
+                if isa(hObject.Children, 'matlab.graphics.layout.TiledChartLayout')
+                    hchildren = hObject.Children.Children;                
+                else
+                    hchildren = hObject.Children;                
+                end
+
+                for c = hchildren(idx).'
                     obj.vBar(end+1) = xline(c, eventdata.Source.CurrentAxes.CurrentPoint(1), 'Color', Color.RED);
                 end  
             end
