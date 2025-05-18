@@ -16,9 +16,15 @@ classdef afigure < handle
             set(obj.handle,'WindowButtonDownFcn', @obj.AxisClick_Callback);
         end                
 
-        function linkaxes(obj, axes)
-            idx = arrayfun(@(h) isa(h, 'matlab.graphics.axis.Axes'), obj.handle.Children);
-            linkaxes(obj.handle.Children(idx), axes);
+        function linkaxes(obj, axes)     
+            if isa( obj.handle.Children, 'matlab.graphics.layout.TiledChartLayout')
+                ch = obj.handle.Children.Children;                
+            else
+                ch = obj.handle.Children;                
+            end
+
+            idx = arrayfun(@(h) isa(h, 'matlab.graphics.axis.Axes'), ch);            
+            linkaxes(ch(idx), axes);
         end
       
         function showlegend(obj)
