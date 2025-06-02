@@ -28,13 +28,12 @@ classdef ParticleFilter < handle
             obj.x_t = obj.x_t + u_t + r;
         end
 
-        function Correct(obj, dy, sigma)
-            % obj.w_t = 1./(dy.^2 + 1e-6);
-            % obj.w_t = obj.w_t ./ sum(obj.w_t);
-            
+        function Correct(obj, dy, sigma)                        
             for ii = 1:numel(dy)
                 obj.w_t(ii) = likelihood.gauss(dy(ii), sigma);
             end
+
+            obj.w_t = obj.w_t / sum(obj.w_t) + 1e-9;
         end
       
         % optimized Roulette Wheel Sampling
