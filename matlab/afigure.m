@@ -58,7 +58,7 @@ classdef afigure < handle
                 end
 
                 for c = hchildren(idx).'
-                    obj.vBar(end+1) = xline(c, eventdata.Source.CurrentAxes.CurrentPoint(1), 'Color', Color.RED);
+                    obj.vBar(end+1) = xline(c, eventdata.Source.CurrentAxes.CurrentPoint(1), 'Color', Color.RED, 'HandleVisibility', 'off');
                 end  
             end
         end
