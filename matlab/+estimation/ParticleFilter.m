@@ -29,7 +29,7 @@ classdef ParticleFilter < handle
         end
 
         function Correct(obj, dy, sigma)                        
-            for ii = 1:numel(dy)
+            for ii = 1:obj.NumberParticles
                 obj.w_t(ii) = likelihood.gauss(dy(ii), sigma);
             end
 
