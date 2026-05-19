@@ -1,2 +1,0 @@
-function RodriguesFormula()
-end
